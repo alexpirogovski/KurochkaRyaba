@@ -1,8 +1,19 @@
 import time  # Need this to sleep
 import random  # Need this to get random numbers
 
+class CanBreakEgg(object):
+  # Insert __init__ function
+  def can_break_egg(calling_class):
+    called_by = calling_class.__class__.__name__
+    if called_by == 'DedAndBabka':
+      print('{} bili-bili - ne razbili'.format(called_by))
+      return False
+    else:
+      print('Egg is broken by {}'.format(called_by))
+      return True
 
-class KurochkaRyaba(object):
+
+class KurochkaRyaba(CanBreakEgg):
   def __init__(self):
     print('I byla u nih kurochka ryaba.')  # This will be printed second
     # Increase with this number to get more normal eggs
@@ -15,9 +26,10 @@ class KurochkaRyaba(object):
     return egg
 
 
-class DedAndBabka(object):
+class DedAndBabka(CanBreakEgg):
   def __init__(self):
     print('Zhili-byli ded da baba.')  # This will be printed first
+    self.can_break_egg()
     self.kurochka = KurochkaRyaba()
 
   def live(self):
@@ -27,17 +39,18 @@ class DedAndBabka(object):
         # Reduce this number for a faster simulation
         time.sleep(1)
       elif egg == 'Golden':
+        for someone in [self, self.kurochka]:
+          print('{} tried to break egg')
+          if someone.can_break_egg():
+            break
         break
-      else:
-        print('Unknown egg type!')
-        exit(1)
 
 
 def main():
-  # Start Skazka
-  ded_da_baba = DedAndBabka()
+  # Start Skazka about Ded and Babka
+  ded_da_babka = DedAndBabka()
   # Zhili-byli
-  ded_da_baba.live()
+  ded_da_babka.live()
   # End Skazka
   print('Vot i skazke konec.')
 
